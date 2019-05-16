@@ -1,0 +1,15 @@
+<ng-template #defaultHeaderTemplate>
+    <div class="header" [class.vertical]="isVertical">
+        <div *ngFor="let tab of tabs" [class.selected]="tab.selected" class="tab-header" (click)="onTabClick(tab)">
+            {{tab.title}}
+        </div>
+    </div>
+</ng-template>
+
+
+<div class="tabs" [class.vertical]="!isVertical">
+    <ng-container *ngTemplateOutlet="defaultHeaderTemplate"></ng-container>
+    <div class="content">
+        <ng-content></ng-content>
+    </div>
+</div>

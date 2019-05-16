@@ -3,9 +3,73 @@
   <div class="f-fill"></div>
   <div class="no-shrink"></div>
 </div>
-<div class="body d-flex flex-fill">
-  <router-outlet></router-outlet>
+<div class="body d-flex flex-fill p-2">
+  <!-- <router-outlet></router-outlet> -->
+
+  <app-tabs class="d-flex flex-fill">
+    <app-tab title="One" [selected]="true">Hello 1</app-tab>
+    <app-tab title="Two">Hello 2</app-tab>
+    <app-tab title="Three">Hello 3</app-tab>
+  </app-tabs>
+
+
+  <!-- <div class="container"> -->
+
+  <!-- <ng-template #headerButtons>
+
+    <button (click)="tabPanel.selectTab(loginTab)">Login</button>
+    <button (click)="tabPanel.selectTab(signUpTab)">Sign Up</button>
+
+  </ng-template>
+
+
+  <tabs-panel id="tab-panel" #tabPanel class="d-flex flex-fill">
+
+    <tab title="Login" #loginTab [selected]="false" class="flex-fill">
+      <form>
+        <div class="form-field">
+          <label>Email:</label><input class="login-email">
+        </div>
+        <div class="form-field">
+          <label>Password:</label><input>
+        </div>
+      </form>
+    </tab>
+
+    <tab title="Sign Up" #signUpTab [selected]="false" class="flex-fill">
+      <form>
+        <div class="form-field">
+          <label>Email:</label><input>
+        </div>
+        <div class="form-field">
+          <label>Password:</label><input>
+        </div>
+        <div class="form-field">
+          <label>Confirm Password:</label><input>
+        </div>
+      </form>
+    </tab>
+
+    <tab title="Contact" [selected]="true" class="flex-fill">
+      <form>
+        <div class="form-field">
+          <label>Email:</label><input class="contact-email">
+        </div>
+        <div class="form-field">
+          <label>Message:</label>
+          <textarea></textarea>
+        </div>
+      </form>
+    </tab>
+
+  </tabs-panel> -->
+
+  <!-- </div> -->
+
+
+
 </div>
 <div class="footer no-shrink">
-
+  <button id="startButton">Start</button>
+  <button id="stopButton">Stop</button>
 </div>
