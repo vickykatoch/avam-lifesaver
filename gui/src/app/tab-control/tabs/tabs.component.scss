@@ -5,35 +5,36 @@
     box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.2),
         0 2px 8px 0 rgba(0, 0, 0, 0.14),
         0 4px 8px -1px rgba(0, 0, 0, 0.12);
-    border-radius: 5px;
-
 
     .header {
         display: flex;
         flex-shrink: 0;
-        background: var(--primary);
+        background: var(--dark);
+        color: var(--light);
 
-        .tab-header {
-            padding: 5px 10px;
+        .tab-header {    
+            display: flex;        
             font-weight: bold;
-            cursor: pointer;
-            margin-top: 5px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            margin-left: 2px;
-            margin-right: 2px;
+            cursor: pointer;            
+            background: var(--secondary);
 
-            &:first {
-                margin-left: 5px;
+            .close {
+                opacity: 0.6;
+                font-size: .8em;
+                &:hover {
+                    opacity: 1;
+                }
             }
         }
 
         .tab-header:hover {
-            background: green;
+            background: var(--dark);
+            color: var(--light);
         }
 
-        .selected {
-            background: greenyellow;
+        .selected {            
+            color: var(--dark);
+            background: var(--light);
         }
 
         &.vertical {
@@ -48,7 +49,125 @@
 
 
 
-    &.vertical {
-        flex-direction: column;
+    
+
+}
+
+.tabs.horizontal {
+    border-radius: 0;
+
+    &.left .header {
+        order:0;
+
+        .tab-header {
+            
+            margin-left: 5px;            
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+            margin-top: 1px;
+            margin-bottom: 1px;
+        }
+        .tab-header .title {
+            padding: 5px 10px;
+            order: 1;
+        }
+        .tab-header .close {
+            padding-left: 4px;
+            padding-top: 4px;
+            order: 0;
+        }
+    }
+    &.left .content {
+        order:1;
+    }
+
+    &.right .header {
+        order:1;
+
+        .tab-header {
+            margin-right: 5px;            
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            margin-top: 1px;
+            margin-bottom: 1px;
+        }
+        .tab-header .title {
+            padding: 5px 10px;  
+            flex-grow: 1;          
+        }
+        .tab-header .close {
+            padding-right: 4px;
+            padding-top: 4px;            
+        }
+    }
+    &.right .content {
+        order:0;
+    }
+
+    &.left .header, &.right .header {
+        .tab-header:first-child {
+            margin-top: 10px;
+        }
+        .tab-header:last-child {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.tabs.vertical {
+    flex-direction: column;
+    border-radius: 5px;
+
+    &.top .header {
+        order:0;
+
+        .tab-header {
+            margin-top: 5px;            
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+            margin-left: 1px;
+            margin-right: 1px;
+        }
+        .tab-header .title {
+            padding: 5px 10px;
+        }
+        .tab-header .close {
+            padding-right: 4px;
+            padding-top: 4px;
+        }
+    }
+    &.top .content {
+        order:1;
+    }
+
+    &.bottom .header {
+        order:1;
+        
+        .tab-header {                       
+            margin-bottom:5px;
+            border-bottom-left-radius: 2px;
+            border-bottom-right-radius: 2px;
+            margin-left: 1px;
+            margin-right: 1px;            
+        }
+        .tab-header .title {
+            padding: 5px 10px;
+        }
+        .tab-header .close {
+            padding-right: 4px;
+            padding-top: 20px;
+        }
+    }
+    &.bottom .content {
+        order:0;
+    }
+
+    &.top .header, &.bottom .header {
+        .tab-header:first-child {
+            margin-left: 10px;
+        }
+        .tab-header:last-child {
+            margin-right: 10px;
+        }
     }
 }

@@ -5,23 +5,23 @@ import {
   QueryList,
   AfterContentInit,
   Input
-} from "@angular/core";
-import { TabComponent } from "../tab/tab.component";
+} from '@angular/core';
+import { TabComponent } from '../tab/tab.component';
 
 @Component({
-  selector: "app-tabs",
-  templateUrl: "./tabs.component.html",
-  styleUrls: ["./tabs.component.scss"]
+  selector: 'app-tabs',
+  templateUrl: './tabs.component.html',
+  styleUrls: ['./tabs.component.scss']
 })
 export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
-  @Input() headerLocation = "top";
+  @Input() headerLocation = 'top';
+  @Input() canClose = true;
 
-  constructor() {}
+  constructor() { }
 
   ngAfterContentInit(): void {
-    console.log(this.tabs);
   }
   public onTabClick(tab: TabComponent) {
     this.tabs.forEach(tb => (tb.selected = false));
@@ -32,7 +32,9 @@ export class TabsComponent implements AfterContentInit {
       tabs: this.tabs
     };
   }
+  closeTab(tab: TabComponent) {
+  }
   get isVertical(): boolean {
-    return this.headerLocation === "left" || this.headerLocation === "right";
+    return this.headerLocation === 'left' || this.headerLocation === 'right';
   }
 }

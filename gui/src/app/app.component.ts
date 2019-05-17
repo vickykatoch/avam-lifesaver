@@ -8,6 +8,7 @@ import { scan, switchMapTo, takeUntil, startWith, mapTo } from "rxjs/operators";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent implements OnInit {
+  location = 'top';
   ngOnInit(): void {
     const startButton = document.getElementById("startButton");
     const stopButton = document.getElementById("stopButton");
