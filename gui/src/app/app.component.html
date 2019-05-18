@@ -6,7 +6,7 @@
 <div class="body d-flex flex-fill p-2 flex-column">
   <!-- <router-outlet></router-outlet> -->
   <div class="d-flex no-shrink pt1 pb-1 justify-content-end">
-    <select [(ngModel)] ="location">
+    <select [(ngModel)]="location">
       <option value="top" selected>Top</option>
       <option value="bottom">Bottom</option>
       <option value="right">Right</option>
@@ -14,9 +14,10 @@
     </select>
   </div>
   <app-tabs class="d-flex flex-fill" [headerLocation]='location'>
-    <app-tab title="One" [selected]="true">Hello 1</app-tab>
+    <app-tab title="One" (activated)="">Hello 1</app-tab>
     <app-tab title="Two">Hello 2</app-tab>
-    <app-tab title="Three">Hello 3</app-tab>
+    <app-tab title="Three" selected="true">Hello 3</app-tab>
+    <app-tab title="Four" selected="true">Hello 4</app-tab>
   </app-tabs>
 
 

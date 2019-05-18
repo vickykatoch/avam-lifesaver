@@ -4,26 +4,42 @@ import {
   ContentChildren,
   QueryList,
   AfterContentInit,
-  Input
-} from '@angular/core';
-import { TabComponent } from '../tab/tab.component';
+  Input,
+  ComponentRef,
+  ElementRef,
+  ViewChildren
+} from "@angular/core";
+import { TabComponent } from "../tab/tab.component";
 
 @Component({
-  selector: 'app-tabs',
-  templateUrl: './tabs.component.html',
-  styleUrls: ['./tabs.component.scss']
+  selector: "app-tabs",
+  templateUrl: "./tabs.component.html",
+  styleUrls: ["./tabs.component.scss"]
 })
 export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
-
-  @Input() headerLocation = 'top';
+  @ViewChildren(TabComponent) tabRefs: QueryList<ElementRef>;
+  @Input() headerLocation = "top";
   @Input() canClose = true;
 
-  constructor() { }
+  constructor() {}
 
   ngAfterContentInit(): void {
+    const selected = this.tabs.filter(c => c.selected);
+    if (selected.length != 1) {
+      selected.length > 1 &&
+        selected.forEach((tab, i) => (tab.selected = i === 0));
+      this.tabs.length && !selected.length && (this.tabs.first.selected = true);
+    }
   }
-  public onTabClick(tab: TabComponent) {
+  public onTabSelect(tab: TabComponent) {
+    const priorSelected = this.tabs.find(t => t.selected);
+    if (priorSelected !== tab) {
+      priorSelected.selected = false;
+      priorSelected.deactivated.next();
+      tab.selected = true;
+      tab.activated.next();
+    }
     this.tabs.forEach(tb => (tb.selected = false));
     tab.selected = true;
   }
@@ -32,9 +48,8 @@ export class TabsComponent implements AfterContentInit {
       tabs: this.tabs
     };
   }
-  closeTab(tab: TabComponent) {
-  }
+  closeTab(tab: TabComponent) {}
   get isVertical(): boolean {
-    return this.headerLocation === 'left' || this.headerLocation === 'right';
+    return this.headerLocation === "left" || this.headerLocation === "right";
   }
 }
