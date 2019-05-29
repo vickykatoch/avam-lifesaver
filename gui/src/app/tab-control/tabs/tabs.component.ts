@@ -17,7 +17,7 @@ export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
   @Input() headerLocation = 'top';
-  @Input() canClose = true;
+  @Input() canClose = false;
 
   constructor() { }
 

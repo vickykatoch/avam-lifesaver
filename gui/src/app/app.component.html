@@ -14,7 +14,9 @@
     </select>
   </div>
   <app-tabs class="d-flex flex-fill" [headerLocation]='location'>
-    <app-tab title="One" [selected]="true">Hello 1</app-tab>
+    <app-tab title="One" [selected]="true">
+      <app-auto-complete></app-auto-complete>
+    </app-tab>
     <app-tab title="Two">Hello 2</app-tab>
     <app-tab title="Three">Hello 3</app-tab>
   </app-tabs>

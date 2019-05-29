@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TabsModule } from './tabs/tabs.module';
 import { TabsPanelModule } from './tab-control/tabs-panel.module';
+import { AutoCompleteComponent } from './auto-complete/auto-complete.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, TabsModule, TabsPanelModule],
+  declarations: [AppComponent, AutoCompleteComponent],
+  imports: [BrowserModule, AppRoutingModule, FormsModule,  TabsPanelModule],
   providers: [],
   bootstrap: [AppComponent]
 })
