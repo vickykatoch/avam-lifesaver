@@ -4,7 +4,10 @@ import {
   ContentChildren,
   QueryList,
   AfterContentInit,
-  Input
+  Input,
+  ComponentRef,
+  ElementRef,
+  ViewChildren
 } from '@angular/core';
 import { TabComponent } from '../tab/tab.component';
 
@@ -15,15 +18,30 @@ import { TabComponent } from '../tab/tab.component';
 })
 export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
-
+  @ViewChildren(TabComponent) tabRefs: QueryList<ElementRef>;
   @Input() headerLocation = 'top';
-  @Input() canClose = false;
+  @Input() canClose = true;
 
-  constructor() { }
+  constructor() {}
 
   ngAfterContentInit(): void {
+    const selected = this.tabs.filter(c => c.selected);
+    if (selected.length !== 1) {
+// tslint:disable-next-line: no-unused-expression
+      selected.length > 1 &&
+        selected.forEach((tab, i) => (tab.selected = i === 0));
+// tslint:disable-next-line: no-unused-expression
+      this.tabs.length && !selected.length && (this.tabs.first.selected = true);
+    }
   }
-  public onTabClick(tab: TabComponent) {
+  public onTabSelect(tab: TabComponent) {
+    const priorSelected = this.tabs.find(t => t.selected);
+    if (priorSelected !== tab) {
+      priorSelected.selected = false;
+      priorSelected.deactivated.next();
+      tab.selected = true;
+      tab.activated.next();
+    }
     this.tabs.forEach(tb => (tb.selected = false));
     tab.selected = true;
   }
@@ -32,8 +50,7 @@ export class TabsComponent implements AfterContentInit {
       tabs: this.tabs
     };
   }
-  closeTab(tab: TabComponent) {
-  }
+  closeTab(tab: TabComponent) {}
   get isVertical(): boolean {
     return this.headerLocation === 'left' || this.headerLocation === 'right';
   }
