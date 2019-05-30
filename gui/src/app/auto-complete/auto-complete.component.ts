@@ -83,6 +83,9 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
     }
     this.clear();
   }
+  onClear() {
+    this.clear();
+  }
   //#endregion
 
   //#region HELPER METHODS

@@ -1,17 +1,23 @@
 <ng-template #defaultTemplate>
   <section *ngIf="showResult" class="d-flex flex-column result" [ngStyle]="resultStyle">
-    <ng-container *ngIf="!multiSelect">
-      <div class="d-flex" (click)="onSelect(resultItem)" *ngFor="let resultItem of searchResult">
-        <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: resultItem, index: i}">
-        </ng-container>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="multiSelect">
-      <div class="d-flex" *ngFor="let resultItem of searchResult">
-        <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: resultItem, index: i}">
-        </ng-container>
-      </div>
-    </ng-container>
+    <div class="acbackdrop" (click)="onClear()"></div>
+    <div class="flex-fill res-grid">
+      <ng-container *ngIf="!multiSelect">
+        <div class="d-flex item" (click)="onSelect(resultItem)" *ngFor="let resultItem of searchResult">
+          <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: resultItem, index: i}">
+          </ng-container>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="multiSelect">
+        <div class="d-flex item" *ngFor="let resultItem of searchResult">
+          <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: resultItem, index: i}">
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+    <div class="no-shrink d-flex justi-content-end res-footer">
+      <button class="btn btn-sm btn-success" (click)="onSelect()">OK</button>
+    </div>
   </section>
 </ng-template>
 

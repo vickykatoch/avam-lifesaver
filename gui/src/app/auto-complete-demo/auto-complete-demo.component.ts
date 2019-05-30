@@ -24,6 +24,7 @@ export class AutoCompleteDemoComponent implements OnInit {
     return of(this.searchResult);
   }
   onItemSelected(item: string) {
-    console.log("Item Selected " + item);
+    debugger;
+    console.log(item);
   }
 }

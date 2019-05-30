@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { TabsPanelModule } from './tab-control/tabs-panel.module';
 import { AutoCompleteComponent } from './auto-complete/auto-complete.component';
 import { AutoCompleteDemoComponent } from './auto-complete-demo/auto-complete-demo.component';
+import { CanvasDemoComponent } from './canvas-demo/canvas-demo.component';
 
 @NgModule({
-  declarations: [AppComponent, AutoCompleteComponent, AutoCompleteDemoComponent],
+  declarations: [AppComponent, AutoCompleteComponent, AutoCompleteDemoComponent, CanvasDemoComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule,  TabsPanelModule],
   providers: [],
   bootstrap: [AppComponent]
