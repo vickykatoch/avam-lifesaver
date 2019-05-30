@@ -1,3 +1,25 @@
-<p>
-  auto-complete works!
-</p>
+<ng-template #defaultTemplate>
+  <section *ngIf="showResult" class="d-flex flex-column result" [ngStyle]="resultStyle">
+    <ng-container *ngIf="!multiSelect">
+      <div class="d-flex" (click)="onSelect(resultItem)" *ngFor="let resultItem of searchResult">
+        <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: resultItem, index: i}">
+        </ng-container>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="multiSelect">
+      <div class="d-flex" *ngFor="let resultItem of searchResult">
+        <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: resultItem, index: i}">
+        </ng-container>
+      </div>
+    </ng-container>
+  </section>
+</ng-template>
+
+<ng-template #defaultItemTemplate let-item="item">
+  <div class="no-shrink">
+    <input type="checkbox">
+  </div>
+  <div class="flex-fill">
+    {{item.resultItem}}
+  </div>
+</ng-template>
