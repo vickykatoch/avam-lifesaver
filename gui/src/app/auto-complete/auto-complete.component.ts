@@ -11,22 +11,35 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
-  Renderer2
+  Renderer2,
+  HostListener
 } from "@angular/core";
 import { Subscription, fromEvent, Observable, of } from "rxjs";
 import { filter, map, debounceTime, switchMap } from "rxjs/operators";
 //#endregion
 
 //#region MODULE TYPES/CONSTANTS
-export type SearchFn = (searchString: string) => Observable<any[]>;
+export type QueryFn = (searchString: string) => Observable<any[]>;
 export interface SearchResultItem {
   isSelected: boolean;
   resultItem: any;
 }
+enum Key {
+  Backspace = 8,
+  Tab = 9,
+  Enter = 13,
+  Shift = 16,
+  Escape = 27,
+  ArrowLeft = 37,
+  ArrowRight = 39,
+  ArrowUp = 38,
+  ArrowDown = 40
+}
+const DEFAULT_MAX_HEIGHT = 200;
 //#endregion
 
 @Component({
-  selector: "input[auto-complete]",
+  selector: "input[jAutoComplete]",
   templateUrl: "./auto-complete.component.html",
   styleUrls: ["./auto-complete.component.scss"]
 })
@@ -36,19 +49,20 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
   showResult = false;
   private subscriptions: Subscription[] = [];
   private searchResult: SearchResultItem[] = [];
-  private resultStyle: any;
+  resultStyle: any;
   text: string;
   //#endregion
 
   //#region EXTERNAL INPUT/OUTPUT
-  @Input("acItemTemplate") itemTemplate: TemplateRef<any>;
-  @Input() acSearchLocation = "bottom";
-  @Input() acOnSearch: SearchFn;
-  @Input("acResultHeight") resultHeight: number = 200;
-  @Input("acMultiSelect") multiSelect = false;
-  @Output("acSelected") selected = new EventEmitter<any | any[]>();
-  @Input("acDisplayProp") displayProp: string;
-  @Input("acSelectedValue") selectedValue: any;
+  @Input("jItemTemplate") itemTemplate: TemplateRef<any>;
+  @Input("jResultLocation") resultLocation = "bottom";
+  @Input("jQueryFn") queryFn: QueryFn;
+  @Input("jMaxHeight") resultMaxHeight = DEFAULT_MAX_HEIGHT;
+  @Input("jWidthOffset") widthOffset = 0;
+  @Input("jMultiSelect") multiSelect = false;
+  @Input("jDisplayProp") displayProp: string;
+  @Input("jSelectedValue") selectedValue: any;
+  @Output("jSelected") selected = new EventEmitter<any | any[]>();
   //#endregion
 
   //#region CTOR
@@ -74,9 +88,20 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
   //#endregion
 
   //#region GUI CALLBACKS
+  onItemSelected(selectedItem: SearchResultItem) {
+    if (selectedItem) {
+      if (this.multiSelect) {
+        selectedItem.isSelected = true;
+      } else {
+        this.selected.next(selectedItem.resultItem);
+        this.clear();
+      }
+    }
+  }
   onSelect(item?: SearchResultItem) {
     if (this.multiSelect) {
-      this.selected.next(this.searchResult.filter(x => x.isSelected === true));
+      item.isSelected = true;
+      // this.selected.next(this.searchResult.filter(x => x.isSelected === true));
     } else {
       this.selectedValue = item.resultItem;
       this.selected.next(item.resultItem);
@@ -86,13 +111,25 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
   onClear() {
     this.clear();
   }
+  @HostListener("keydown", ["$event"])
+  handleEsc(event: KeyboardEvent) {
+    if (event.keyCode === Key.Escape) {
+      this.clear();
+      event.preventDefault();
+    }
+  }
+  @HostListener("resize", ["$event"])
+  handleResize(event: any) {
+    console.log(event);
+    debugger;
+  }
   //#endregion
 
   //#region HELPER METHODS
   private listenInputChange(): Subscription {
     return fromEvent(this.elem.nativeElement, "keyup")
       .pipe(
-        filter(this.validateInputKey),
+        filter((e: KeyboardEvent) => this.validateNonCharKeyCode(e.keyCode)),
         debounceTime(300),
         map((e: any) => e.target.value as string),
         filter(str => {
@@ -103,7 +140,7 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
           }
           return isOk;
         }),
-        switchMap(str => this.acOnSearch(str)),
+        switchMap(str => this.queryFn(str)),
         map(result => {
           if (Array.isArray(result) && result.length) {
             return result.map(
@@ -120,6 +157,7 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
         if (this.showResult) {
           this.setResultStyle();
         }
+        this.cdr.markForCheck();
       });
   }
   private listenArrowNavigation(): Subscription {
@@ -130,19 +168,20 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
     this.vc.createEmbeddedView(this.resultTemplate);
     this.cdr.markForCheck();
   }
-  private validateInputKey(keyEvt: KeyboardEvent): boolean {
-    return true;
-  }
   private isSearchFuncValid(): boolean {
-    return this.acOnSearch && this.acOnSearch instanceof Function;
+    return this.queryFn && this.queryFn instanceof Function;
   }
   private setResultStyle() {
     const inputElem = this.elem.nativeElement as HTMLInputElement;
+    const parentWidth = inputElem.offsetWidth;
+    const maxWidth = parentWidth + (+this.widthOffset || 0);
+    const top = inputElem.offsetTop + inputElem.offsetHeight;
     this.resultStyle = {
-      left: inputElem.offsetLeft,
-      top: inputElem.offsetTop + inputElem.height,
-      height: `${this.resultHeight}px`,
-      minWidth: `${inputElem.clientWidth}px`
+      top: `${top}px`,
+      left: `${inputElem.offsetLeft}px`,
+      maxHeight: `${this.resultMaxHeight || DEFAULT_MAX_HEIGHT}px`,
+      minWidth: `${parentWidth}px`,
+      maxWidth: `${maxWidth}px`
     };
   }
   private clear() {
@@ -161,6 +200,18 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
     } else {
       this.renderer.setValue(this.elem.nativeElement, "");
     }
+  }
+  private validateNonCharKeyCode(keyCode: number) {
+    return [
+      Key.Enter,
+      Key.Escape,
+      Key.Tab,
+      Key.Shift,
+      Key.ArrowLeft,
+      Key.ArrowUp,
+      Key.ArrowRight,
+      Key.ArrowDown
+    ].every(codeKey => codeKey !== keyCode);
   }
   //#endregion
 }
