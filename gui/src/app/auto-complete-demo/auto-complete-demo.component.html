@@ -1,8 +1,17 @@
 <div class="d-flex flex-column flex-fill p-2 justify-content-end">
   <div class="no-shrink d-flex">
-    <input type="text" jAutoComplete [jQueryFn]="onSearch.bind(this)" (jSelected)="onItemSelected($event)"
-      [jItemTemplate]="searchItemTemplate" [jMaxHeight]="props.maxHeight" [jResultLocation]="props.resultLocation"
-      [jMultiSelect]="props.multiSelect" [jWidthOffset]="props.widthOffset" class="flex-fill">
+
+    <ng-container *ngIf="props.multiSelect">
+      <input type="text" jAutoComplete [jQueryFn]="onSearch.bind(this)" (jSelected)="onItemSelected($event)"
+        [jItemTemplate]="multiSelectionTemplate" [jMaxHeight]="props.maxHeight" [jResultLocation]="props.resultLocation"
+        [jMultiSelect]="props.multiSelect" [jDebounceTime]="0" [jWidthOffset]="props.widthOffset" class="flex-fill">
+    </ng-container>
+    <ng-container *ngIf="!props.multiSelect">
+      <input type="text" jAutoComplete [jQueryFn]="onSearch.bind(this)" (jSelected)="onItemSelected($event)"
+        [jItemTemplate]="singleSelectionTemplate" [jMaxHeight]="props.maxHeight"
+        [jResultLocation]="props.resultLocation" [jMultiSelect]="props.multiSelect" [jDebounceTime]="0"
+        [jWidthOffset]="props.widthOffset" class="flex-fill" [ngModel]="selectedRec?.name">
+    </ng-container>
     <input type="text" class="flex-fill">
   </div>
   <div class="d-flex flex-column flex-fill mt-2">
@@ -53,9 +62,14 @@
   </div>
 </div>
 
-<ng-template #searchItemTemplate let-item="item">
+<ng-template #multiSelectionTemplate let-item="item">
   <div class="no-shrink p-1">
     <input type="checkbox" [(ngModel)]="item.isSelected">
   </div>
   <div class="d-flex flex-fill p-1">{{item.resultItem.name}}</div>
+</ng-template>
+<ng-template #singleSelectionTemplate let-item="item">
+  <div class="flex-fill p-1">
+    {{item.resultItem.name}}
+  </div>
 </ng-template>

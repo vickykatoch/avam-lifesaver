@@ -33,7 +33,8 @@ enum Key {
   ArrowLeft = 37,
   ArrowRight = 39,
   ArrowUp = 38,
-  ArrowDown = 40
+  ArrowDown = 40,
+  Space = 32
 }
 const DEFAULT_MAX_HEIGHT = 200;
 //#endregion
@@ -46,11 +47,19 @@ const DEFAULT_MAX_HEIGHT = 200;
 export class AutoCompleteComponent implements OnInit, OnDestroy {
   //#region FIELDS
   @ViewChild("defaultTemplate") resultTemplate: TemplateRef<any>;
+  @ViewChild("multiSelectItemTemplate") multiSelectItemTemplate: TemplateRef<
+    any
+  >;
+  @ViewChild("singleSelectItemTemplate") singleSelectItemTemplate: TemplateRef<
+    any
+  >;
   showResult = false;
   private subscriptions: Subscription[] = [];
   private searchResult: SearchResultItem[] = [];
   resultStyle: any;
   text: string;
+  private _mode = "search";
+  private activeIndex = -1;
   //#endregion
 
   //#region EXTERNAL INPUT/OUTPUT
@@ -62,6 +71,13 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
   @Input("jMultiSelect") multiSelect = false;
   @Input("jDisplayProp") displayProp: string;
   @Input("jSelectedValue") selectedValue: any;
+  @Input("jDebounceTime") inputDelay = 200;
+  @Input("jMode") set mode(value: string) {
+    this._mode = value;
+  }
+  get mode(): string {
+    return this._mode;
+  }
   @Output("jSelected") selected = new EventEmitter<any | any[]>();
   //#endregion
 
@@ -94,21 +110,20 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
         selectedItem.isSelected = true;
       } else {
         this.selected.next(selectedItem.resultItem);
+        this.elem.nativeElement.value =
+          selectedItem.resultItem[this.displayProp];
         this.clear();
       }
     }
   }
-  onSelect(item?: SearchResultItem) {
-    if (this.multiSelect) {
-      item.isSelected = true;
-      // this.selected.next(this.searchResult.filter(x => x.isSelected === true));
-    } else {
-      this.selectedValue = item.resultItem;
-      this.selected.next(item.resultItem);
-    }
+  onOK() {
+    const selectedItems = this.searchResult
+      .filter(x => x.isSelected)
+      .map(i => i.resultItem);
+    this.selected.next(selectedItems);
     this.clear();
   }
-  onClear() {
+  onCancel() {
     this.clear();
   }
   @HostListener("keydown", ["$event"])
@@ -118,10 +133,25 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
       event.preventDefault();
     }
   }
-  @HostListener("resize", ["$event"])
-  handleResize(event: any) {
-    console.log(event);
-    debugger;
+  @HostListener("focus", ["$event"])
+  handleFocus(event: any) {
+    this.activeIndex = -1;
+  }
+  @HostListener("blur", ["$event"])
+  handleBlur(event: any) {
+    setTimeout(() => {
+      this.clear();
+      this.cdr.markForCheck();
+    }, 200);
+  }
+  get template(): TemplateRef<any> {
+    if (this.itemTemplate) {
+      return this.itemTemplate;
+    } else {
+      return this.multiSelect
+        ? this.multiSelectItemTemplate
+        : this.singleSelectItemTemplate;
+    }
   }
   //#endregion
 
@@ -129,8 +159,8 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
   private listenInputChange(): Subscription {
     return fromEvent(this.elem.nativeElement, "keyup")
       .pipe(
-        filter((e: KeyboardEvent) => this.validateNonCharKeyCode(e.keyCode)),
-        debounceTime(300),
+        filter((e: KeyboardEvent) => this.isKeyValid(e.keyCode)),
+        debounceTime(this.inputDelay),
         map((e: any) => e.target.value as string),
         filter(str => {
           const isOk = this.isSearchFuncValid() && str && str.trim().length > 0;
@@ -161,7 +191,45 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
       });
   }
   private listenArrowNavigation(): Subscription {
-    return of("3").subscribe();
+    return fromEvent(this.elem.nativeElement, "keydown")
+      .pipe(
+        filter(
+          (e: KeyboardEvent) =>
+            this.showResult &&
+            (e.keyCode === Key.ArrowDown ||
+              e.keyCode === Key.ArrowUp ||
+              e.keyCode === Key.Enter)
+        ),
+        map((e: KeyboardEvent) => e.keyCode)
+      )
+      .subscribe((keyCode: number) => {
+        if (keyCode === Key.Enter) {
+          this.onEnterKeyPressed(this.activeIndex);
+          this.clear();
+        } else {
+          let step = keyCode === Key.ArrowDown ? 1 : -1;
+          const topLimit = this.searchResult.length - 1;
+          const bottomLimit = 0;
+          this.activeIndex += step;
+          if (this.activeIndex === topLimit + 1) {
+            this.activeIndex = bottomLimit;
+          }
+          if (this.activeIndex === bottomLimit - 1) {
+            this.activeIndex = topLimit;
+          }
+          this.cdr.markForCheck();
+        }
+      });
+  }
+  private onEnterKeyPressed(index: number) {
+    if (this.multiSelect) {
+      this.onOK();
+    } else {
+      if (index >= 0) {
+        this.onItemSelected(this.searchResult[index]);
+        (this.elem.nativeElement as HTMLInputElement).blur();
+      }
+    }
   }
   private renderTemplate() {
     // TODO: consider searchLocation bfor rendering the template
@@ -184,24 +252,13 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
       maxWidth: `${maxWidth}px`
     };
   }
-  private clear() {
+  private clear(empty?: boolean) {
     this.searchResult = [];
     this.showResult = false;
-    this.setInputValue();
+    this.activeIndex = -1;
   }
-  private setInputValue() {
-    if (this.selectedValue) {
-      this.renderer.setValue(this.elem.nativeElement, this.selectedValue);
-      this.renderer.setProperty(
-        this.elem.nativeElement,
-        "textContent",
-        this.selectedValue
-      );
-    } else {
-      this.renderer.setValue(this.elem.nativeElement, "");
-    }
-  }
-  private validateNonCharKeyCode(keyCode: number) {
+
+  private isKeyValid(keyCode: number) {
     return [
       Key.Enter,
       Key.Escape,

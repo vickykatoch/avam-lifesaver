@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from "@angular/core";
 import { Observable, of, interval } from "rxjs";
 import { switchMap, filter, map } from "rxjs/operators";
 
@@ -37,10 +42,11 @@ export class AutoCompleteDemoComponent implements OnInit {
     { id: 15, name: "Glen Maxwell", region: "AU" }
   ];
   private props: AutoCompleteProps;
+  private selectedRec: any;
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     this.props = {
-      multiSelect: true,
+      multiSelect: false,
       customTemplate: true,
       resultLocation: "bottom",
       maxHeight: 0,
@@ -63,7 +69,10 @@ export class AutoCompleteDemoComponent implements OnInit {
       )
     );
   }
-  onItemSelected(item: string) {
-    console.log(item);
+  onItemSelected(item: string | string[]) {
+    if (!Array.isArray(item)) {
+      this.selectedRec = item;
+      this.cdr.markForCheck();
+    }
   }
 }

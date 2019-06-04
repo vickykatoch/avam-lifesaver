@@ -1,23 +1,25 @@
 <ng-template #defaultTemplate>
   <section *ngIf="showResult" class="d-flex flex-column j-autocomplete" [ngStyle]="resultStyle">
-    <div class="j-backdrop" (click)="onClear()"></div>
+    <div class="j-backdrop" (click)="onCancel()"></div>
     <div class="flex-fill j-result-items">
       <ng-container *ngIf="!multiSelect">
-        <div class="d-flex j-result-item" (click)="onItemSelected(resultItem)" *ngFor="let resultItem of searchResult">
-          <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: resultItem, index: i}">
+        <div class="d-flex j-result-item" (click)="onItemSelected(resultItem)"
+          *ngFor="let resultItem of searchResult; let i = index;" [class.active]="i===activeIndex">
+          <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{item: resultItem, index: i}">
           </ng-container>
         </div>
       </ng-container>
       <ng-container *ngIf="multiSelect">
-        <div class="d-flex j-result-item" *ngFor="let resultItem of searchResult" (click)="onItemSelected(resultItem)">
-          <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: resultItem, index: i}">
+        <div class="d-flex j-result-item" *ngFor="let resultItem of searchResult; let i = index;"
+          (click)="onItemSelected(resultItem)" [class.active]="i===activeIndex">
+          <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{item: resultItem, index: i}">
           </ng-container>
         </div>
       </ng-container>
     </div>
-    <div class="no-shrink d-flex justify-content-end j-result-footer">
-      <button class="btn btn-sm btn-success mr-1" (click)="onSelect()">OK</button>
-      <button class="btn btn-sm btn-danger" (click)="onSelect()">Cancel</button>
+    <div class="no-shrink d-flex justify-content-end j-result-footer" *ngIf="multiSelect">
+      <button class="btn btn-sm btn-success mr-1" (click)="onOK()">OK</button>
+      <button class="btn btn-sm btn-danger" (click)="onCancel()">Cancel</button>
     </div>
   </section>
 </ng-template>
@@ -31,6 +33,6 @@
   </div>
 </ng-template>
 
-<ng-template #singleSelectSearchItemTemplate let-item="item">
+<ng-template #singleSelectItemTemplate let-item="item">
   <div class="d-flex flex-fill p-1">{{item.resultItem.name}}</div>
 </ng-template>
