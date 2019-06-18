@@ -1,6 +1,5 @@
 <div class="d-flex flex-column flex-fill p-2 justify-content-end">
   <div class="no-shrink d-flex">
-
     <ng-container *ngIf="props.multiSelect">
       <input type="text" jAutoComplete [jQueryFn]="onSearch.bind(this)" (jSelected)="onItemSelected($event)"
         [jItemTemplate]="multiSelectionTemplate" [jMaxHeight]="props.maxHeight" [jResultLocation]="props.resultLocation"

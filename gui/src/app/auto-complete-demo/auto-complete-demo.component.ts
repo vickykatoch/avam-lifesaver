@@ -39,7 +39,13 @@ export class AutoCompleteDemoComponent implements OnInit {
     { id: 12, name: "Hardik Pandya", region: "IN" },
     { id: 13, name: "Steve Smith", region: "AU" },
     { id: 14, name: "David Warner", region: "AU" },
-    { id: 15, name: "Glen Maxwell", region: "AU" }
+    { id: 15, name: "Glen Maxwell", region: "AU" },
+    { id: 16, name: "Aron Finch", region: "AU" },
+    { id: 17, name: "Usman Khwaja", region: "AU" },
+    { id: 18, name: "Glen McGrath", region: "AU" },
+    { id: 19, name: "Ricky Ponting", region: "AU" },
+    { id: 20, name: "Mitchell Starc", region: "AU" },
+    { id: 21, name: "Pat Cummins", region: "AU" }
   ];
   private props: AutoCompleteProps;
   private selectedRec: any;
@@ -69,9 +75,16 @@ export class AutoCompleteDemoComponent implements OnInit {
       )
     );
   }
-  onItemSelected(item: string | string[]) {
-    if (!Array.isArray(item)) {
+  onItemSelected(item: any | any[]) {
+    debugger;
+    if (item) {
+      if (!Array.isArray(item)) {
+        this.selectedRec = item;
+        this.cdr.markForCheck();
+      }
+    } else {
       this.selectedRec = item;
+      console.log("Value is null");
       this.cdr.markForCheck();
     }
   }

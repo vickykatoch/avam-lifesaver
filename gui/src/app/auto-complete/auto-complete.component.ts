@@ -131,6 +131,9 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
     if (event.keyCode === Key.Escape) {
       this.clear();
       event.preventDefault();
+    } else if (event.keyCode === Key.Tab) {
+      // this.clear();
+      // this.selected.next(null);
     }
   }
   @HostListener("focus", ["$event"])
@@ -200,7 +203,10 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
               e.keyCode === Key.ArrowUp ||
               e.keyCode === Key.Enter)
         ),
-        map((e: KeyboardEvent) => e.keyCode)
+        map((e: KeyboardEvent) => {
+          e.preventDefault();
+          return e.keyCode;
+        })
       )
       .subscribe((keyCode: number) => {
         if (keyCode === Key.Enter) {
@@ -217,6 +223,8 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
           if (this.activeIndex === bottomLimit - 1) {
             this.activeIndex = topLimit;
           }
+          // const elem =this.elem.nativeElement as HTMLInputElement;
+          // j-result-item
           this.cdr.markForCheck();
         }
       });
@@ -224,6 +232,7 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
   private onEnterKeyPressed(index: number) {
     if (this.multiSelect) {
       this.onOK();
+      this.moveFocus();
     } else {
       if (index >= 0) {
         this.onItemSelected(this.searchResult[index]);
@@ -257,7 +266,10 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
     this.showResult = false;
     this.activeIndex = -1;
   }
-
+  private moveFocus() {
+    const elem = this.elem.nativeElement as HTMLInputElement;
+    // elem.nextElementSibling.
+  }
   private isKeyValid(keyCode: number) {
     return [
       Key.Enter,
