@@ -107,7 +107,7 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
   onItemSelected(selectedItem: SearchResultItem) {
     if (selectedItem) {
       if (this.multiSelect) {
-        selectedItem.isSelected = true;
+        selectedItem.isSelected = !selectedItem.isSelected;
       } else {
         this.selected.next(selectedItem.resultItem);
         this.elem.nativeElement.value =
@@ -143,9 +143,12 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
   @HostListener("blur", ["$event"])
   handleBlur(event: any) {
     setTimeout(() => {
-      this.clear();
+      !this.multiSelect && this.clear();
       this.cdr.markForCheck();
     }, 200);
+  }
+  onBackdropOver(evt: any) {
+    console.log(evt);
   }
   get template(): TemplateRef<any> {
     if (this.itemTemplate) {

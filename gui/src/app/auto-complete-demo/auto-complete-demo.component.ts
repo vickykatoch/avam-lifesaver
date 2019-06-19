@@ -76,7 +76,6 @@ export class AutoCompleteDemoComponent implements OnInit {
     );
   }
   onItemSelected(item: any | any[]) {
-    debugger;
     if (item) {
       if (!Array.isArray(item)) {
         this.selectedRec = item;
