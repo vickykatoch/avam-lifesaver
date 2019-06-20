@@ -9,13 +9,14 @@ import { AutoCompleteDemoComponent } from './auto-complete-demo/auto-complete-de
 import { CanvasDemoComponent } from './canvas-demo/canvas-demo.component';
 import { TabsPanelComponent } from './tabs-panel/tabs-panel.component';
 import { TabComponent } from './tabs-panel/tab/tab.component';
+import { ExtReplaySubjectTesterComponent } from './ext-replay-subject-tester/ext-replay-subject-tester.component';
 
 @NgModule({
   declarations: [AppComponent, 
     AutoCompleteComponent, 
     AutoCompleteDemoComponent, 
     CanvasDemoComponent, TabsPanelComponent, 
-    TabComponent
+    TabComponent, ExtReplaySubjectTesterComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
