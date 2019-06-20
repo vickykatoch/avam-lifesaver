@@ -12,6 +12,8 @@
             "element",
             "app",
             "kebab-case"
-        ]
+        ],
+        "no-unused-expression" :false,
+        "no-bitwise": false
     }
 }

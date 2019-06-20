@@ -16,3 +16,7 @@ body {
 .no-shrink {
     flex-shrink: 0;
 }
+
+.hidden {
+    display: none !important;
+}

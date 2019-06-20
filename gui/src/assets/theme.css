@@ -1,0 +1,10 @@
+:root {
+    --shade-1 : #171a1d;
+    --shade-2: #2e3336;   
+    --shade-3 : #4a5055;
+    --shade-4: #6b757e;
+    --shade-5 : #a5acb1;
+    --shade-6: #d1dae2;
+
+    --border-color: rgb(80, 78, 78);
+}

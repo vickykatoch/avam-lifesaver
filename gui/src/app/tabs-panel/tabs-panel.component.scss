@@ -5,61 +5,54 @@
     box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.2),
         0 2px 8px 0 rgba(0, 0, 0, 0.14),
         0 4px 8px -1px rgba(0, 0, 0, 0.12);
-
+    
     .header {
         display: flex;
         flex-shrink: 0;
-        background: var(--dark);
-        color: var(--light);
+        background: var(--shade-3);
+        color: var(--shade-6);
 
         .tab-header {
             display: flex;
             font-weight: bold;
             cursor: pointer;
-            background: var(--secondary);
-            opacity: .7;
-
+            background: var(--shade-1);
+            opacity: .8;
             &:hover {
+                background: var(--shade-4);
                 opacity: 1;
+                color: var(--shade-1);
             }
 
             .close {
-                opacity: 0.6;
+                opacity: .6;
                 font-size: .8em;
                 color: var(--light);
-
-
                 &:hover {
                     opacity: 1;
                 }
             }
-        }
-
-        // .tab-header .close {
-        //     color: var(--light);
-
-        // }
-
-        .tab-header.selected,
-        .tab-header.selected:hover {
-            color: var(--dark);
-            background: var(--light);
-            opacity: 1;
-
-            .close {
+            &.selected, &.selected:hover {
                 color: var(--dark);
+                background: var(--light);
+                opacity: 1;
+
+                .close {
+                    color: var(--dark);
+                }
             }
         }
-
         &.vertical {
             flex-direction: column;
         }
     }
-
     .content {
         display: flex;
-        flex-grow: 1 !important;
+        flex-grow:  1 !important;
+
+        
     }
+
 }
 
 .tabs.horizontal {
@@ -75,19 +68,19 @@
             margin-top: 1px;
             margin-bottom: 1px;
         }
-
-        .tab-header .title {
-            padding: 5px 10px;
-            order: 1;
+        .tab-header.selected {
+            margin-left: 2px !important;
         }
-
+        .tab-header .title {
+            order:1;
+            padding: 5px 10px;
+        }
         .tab-header .close {
+            order: 0;
             padding-left: 4px;
             padding-top: 4px;
-            order: 0;
         }
     }
-
     &.left .content {
         order: 1;
     }
@@ -102,31 +95,20 @@
             margin-top: 1px;
             margin-bottom: 1px;
         }
-
-        .tab-header .title {
-            padding: 5px 10px;
-            flex-grow: 1;
+        .tab-header.selected {
+            margin-right: 2px !important;
         }
-
+        .tab-header .title {
+            flex-grow: 1;
+            padding: 3px 10px;
+        }
         .tab-header .close {
             padding-right: 4px;
             padding-top: 4px;
         }
     }
-
     &.right .content {
         order: 0;
-    }
-
-    &.left .header,
-    &.right .header {
-        .tab-header:first-child {
-            margin-top: 10px;
-        }
-
-        .tab-header:last-child {
-            margin-bottom: 10px;
-        }
     }
 }
 
@@ -139,22 +121,25 @@
 
         .tab-header {
             margin-top: 5px;
+            margin-bottom: 0;
             border-top-left-radius: 2px;
             border-top-right-radius: 2px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
             margin-left: 1px;
             margin-right: 1px;
         }
-
-        .tab-header .title {
-            padding: 5px 10px;
+        .tab-header.selected {
+            margin-top: 2px !important;
         }
-
-        .tab-header .close {
+        .tab-header .title {            
+            padding: 3px 10px;
+        }
+        .tab-header .close {            
             padding-right: 4px;
             padding-top: 4px;
         }
     }
-
     &.top .content {
         order: 1;
     }
@@ -164,34 +149,23 @@
 
         .tab-header {
             margin-bottom: 5px;
+            border-top-left-radius: 2px;
             border-bottom-left-radius: 2px;
-            border-bottom-right-radius: 2px;
             margin-left: 1px;
             margin-right: 1px;
         }
-
-        .tab-header .title {
-            padding: 5px 10px;
+        .tab-header.selected {
+            margin-bottom: 2px !important;
         }
-
+        .tab-header .title {            
+            padding: 3px 10px;
+        }
         .tab-header .close {
             padding-right: 4px;
-            padding-top: 20px;
+            padding-top: 4px;
         }
     }
-
     &.bottom .content {
         order: 0;
-    }
-
-    &.top .header,
-    &.bottom .header {
-        .tab-header:first-child {
-            margin-left: 10px;
-        }
-
-        .tab-header:last-child {
-            margin-right: 10px;
-        }
     }
 }

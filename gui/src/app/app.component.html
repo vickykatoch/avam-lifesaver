@@ -12,8 +12,23 @@
       <option value="right">Right</option>
       <option value="left">Left</option>
     </select>
+ 
+ 
   </div>
-  <app-tabs class="d-flex flex-fill" [headerLocation]='location'>
+ <app-tabs-panel class="d-flex flex-fill" [headerLocation]='location'>
+    <app-tab header="One" class="d-flex flex-fill" selected="true">
+        <app-auto-complete-demo></app-auto-complete-demo>
+      </app-tab>
+      <app-tab header="Canvas" class="d-flex flex-fill">
+          <app-canvas-demo></app-canvas-demo>
+        </app-tab>
+        <app-tab header="Two" class="d-flex flex-fill">Hello 2</app-tab>
+        <app-tab header="Three" selected="true" class="d-flex flex-fill">Hello 3</app-tab>
+        <app-tab header="Four" selected="true" class="d-flex flex-fill">Hello 4</app-tab>
+ </app-tabs-panel>
+ 
+ 
+  <!-- <app-tabs class="d-flex flex-fill" [headerLocation]='location'>
     <app-tab title="One" [selected]="true">
       <app-auto-complete-demo></app-auto-complete-demo>
     </app-tab>
@@ -23,7 +38,7 @@
     <app-tab title="Two">Hello 2</app-tab>
     <app-tab title="Three" selected="true">Hello 3</app-tab>
     <app-tab title="Four" selected="true">Hello 4</app-tab>
-  </app-tabs>
+  </app-tabs> -->
 
 
   <!-- <div class="container"> -->
