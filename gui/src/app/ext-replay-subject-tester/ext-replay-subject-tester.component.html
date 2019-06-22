@@ -1,7 +1,12 @@
 <div class="d-flex flex-fill flex-column">
   <div class="d-flex justify-content-end">
+    <button class="btn btn-sm btn-primary mr-1" (click)="sendBulk()">Send Bulk</button>
+    <button class="btn btn-sm btn-primary mr-1" (click)="send50()">Send 50</button>
+    <button class="btn btn-sm btn-primary mr-1" (click)="subscribe()">Subscribe</button>
+    <button class="btn btn-sm btn-primary mr-1" (click)="deleteAll()">Delete All</button>
+    <button class="btn btn-sm btn-primary mr-1" (click)="deleteOfType()">Delete Type</button>
     <button class="btn btn-sm btn-primary mr-1" (click)="duplicate()">Duplicate</button>
     <button class="btn btn-sm btn-primary mr-1" (click)="delete()">Delete</button>
-    <button class="btn btn-sm btn-primary" (click)="start()">Start</button>
+    <button class="btn btn-sm btn-primary" (click)="start()">Send One</button>
   </div>
 </div>
