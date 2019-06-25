@@ -1,0 +1,5 @@
+
+  <button (click)="toggleState()" [@removeMe]="btnState">My Button</button>
+  <ul >
+    <li *ngFor="let item of items" [@myListTrigger]="state">{{item}}</li>
+  </ul>
