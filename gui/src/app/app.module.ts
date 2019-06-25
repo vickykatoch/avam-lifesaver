@@ -21,12 +21,7 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
     TabComponent,
     ExtReplaySubjectTesterComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule
-    // ScrollingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, ScrollingModule],
   providers: [],
   bootstrap: [AppComponent]
 })
