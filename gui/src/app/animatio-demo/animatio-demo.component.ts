@@ -47,6 +47,16 @@ export class AnimatioDemoComponent implements OnInit {
   toggleState() {
     this.items.unshift('Another Name' + (++this.ctr));
     this.state = 'fadeIn';
-    this.btnState = 'out';
+    // this.btnState = 'out';
+  }
+  onAnimationEnd(evt: any) {
+    evt.target.classList.remove('slideInDown');
+  }
+  remove(evt:any, item: string) {
+    evt.target.parentElement.classList.add('fadeOut');
+    setTimeout(() => {
+      this.items = this.items.filter(x => x!== item);
+    },500);
+    
   }
 }

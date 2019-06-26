@@ -1,0 +1,21 @@
+{
+    "devtools_port": 9090,
+    "startup_app": {
+        "name": "OpenfinPOC",
+        "description": "OpenFin POC",
+        "url": "http://localhost:4200",
+        "uuid": "OpenfinPOC-yvlify7a01l",
+        "autoShow": true,
+        "defaultLeft" : 100,
+        "defaultTop" : 100
+    },
+    "runtime": {
+        "arguments": "",
+        "version": "stable"
+    },
+    "shortcut": {
+        "company": true,
+        "description": true,
+        "name": true
+    }
+}

@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { fromEvent, interval } from "rxjs";
 import { scan, switchMapTo, takeUntil, startWith, mapTo } from "rxjs/operators";
 import { memoize } from "./utils/mem";
+import { ComponentBuilderService } from './utils/component-builder.service';
 
 const sum = (a: number, b: number): number => {
   return a + b;
@@ -14,6 +15,11 @@ const sum = (a: number, b: number): number => {
 })
 export class AppComponent implements OnInit {
   location = "top";
+
+  constructor(private cbService: ComponentBuilderService ,private vcr: ViewContainerRef) {
+
+  }
+
   memoizedSum = memoize(sum, 1000, (a: number, b: number) => {
     return `${a}.${b}`;
   });
@@ -57,5 +63,9 @@ export class AppComponent implements OnInit {
   stop() {
     const x = this.memoizedSum(13, 24);
     console.log(x);
+  }
+  open() {
+    this.cbService.open(this.vcr, 'anim');
+    
   }
 }

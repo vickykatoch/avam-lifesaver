@@ -1,5 +1,9 @@
 
   <button (click)="toggleState()" [@removeMe]="btnState">My Button</button>
-  <ul >
-    <li *ngFor="let item of items" [@myListTrigger]="state">{{item}}</li>
+  <!-- <ul >
+    <li *ngFor="let item of items" [@myListTrigger]="state" >{{item}}</li>
+  </ul> -->
+
+  <ul (animationend)="onAnimationEnd($event)">
+      <li *ngFor="let item of items" class="animated slideInLeft">{{item}} <span class="close"  (click)="remove($event,item)">X</span></li>
   </ul>

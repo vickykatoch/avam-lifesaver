@@ -5,6 +5,7 @@
 </div>
 <div class="body d-flex flex-fill p-2 flex-column">
   <!-- <router-outlet></router-outlet> -->
+  <button class="btn btn-primary btn-sm" (click)="open()">Open</button>
   <div class="d-flex no-shrink pt1 pb-1 justify-content-end">
     <select [(ngModel)]="location">
       <option value="top" selected>Top</option>
@@ -15,6 +16,7 @@
 
 
   </div>
+  
   <app-tabs-panel class="d-flex flex-fill" [headerLocation]='location'>
     <app-tab header="One" class="d-flex flex-fill">
       <app-auto-complete-demo></app-auto-complete-demo>

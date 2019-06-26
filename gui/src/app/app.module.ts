@@ -28,6 +28,6 @@ import { AnimatioDemoComponent } from './animatio-demo/animatio-demo.component';
     BrowserAnimationsModule,
     AppRoutingModule, FormsModule, ScrollingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, AnimatioDemoComponent]
 })
 export class AppModule {}
