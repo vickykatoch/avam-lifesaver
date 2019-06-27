@@ -1,0 +1,49 @@
+<div class="d-flex flex-column card">
+  <div class="d-flex no-shrink header justify-content-end">
+    <button class="btn btn-sm btn-primary" (click)="onNew()">
+      New
+    </button>
+  </div>
+  <div class="d-flex flex-fill body">
+    <ng-container [ngTemplateOutlet]="listTemplate"></ng-container>
+  </div>
+  <div class="d-flex no-shrink footer">
+    <div class="d-flex">
+      <i class="fa fa-arrow-left"></i>
+    </div>
+    <div class="flex-fill">
+      &nbsp;
+    </div>
+    <div class="d-flex justify-content-end">
+      <i class="fa fa-arrow-right"></i>
+    </div>
+  </div>
+</div>
+
+<ng-template #listTemplate>
+  <div class="d-flex flex-column flex-fill">
+    <div class="item animated" *ngFor="let item of items" [ngClass]="item.css"
+      (animationend)="onAnimationEnd($event, item)">
+      <div class="d-flex no-shrink title">
+        <span class="flex-fill">{{item.title}}</span>
+        <div class="d-flex justify-content-end no-shrink">
+          <strong class="mr-2 close" (click)="expand($event,item)">
+            ^
+          </strong>
+          <span class="mr-1 close d-flex " (click)="remove($event, item)">X</span>
+        </div>
+
+      </div>
+      <div class="d-flex content animated" *ngIf="item.expanded" [ngClass]="item.expandedCss">
+        {{item.description}}
+      </div>
+
+    </div>
+  </div>
+  <!-- <ul (animationend)="onAnimationEnd($event)">
+    <li *ngFor="let item of items" class="animated" [ngClass]="item.css">
+      <span class="ml-2 close" (click)="remove($event, item)">X</span>
+      {{item.description}}
+    </li>
+  </ul> -->
+</ng-template>

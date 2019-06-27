@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 // import { TabsPanelModule } from './tab-control/tabs-panel.module';
 import { AutoCompleteComponent } from "./auto-complete/auto-complete.component";
 import { AutoCompleteDemoComponent } from "./auto-complete-demo/auto-complete-demo.component";
@@ -12,7 +12,8 @@ import { TabsPanelComponent } from "./tabs-panel/tabs-panel.component";
 import { TabComponent } from "./tabs-panel/tab/tab.component";
 import { ExtReplaySubjectTesterComponent } from "./ext-replay-subject-tester/ext-replay-subject-tester.component";
 import { ScrollingModule } from "@angular/cdk/scrolling";
-import { AnimatioDemoComponent } from './animatio-demo/animatio-demo.component';
+import { AnimatioDemoComponent } from "./animatio-demo/animatio-demo.component";
+import { CssAnimDemoComponent } from "./css-anim-demo/css-anim-demo.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,12 +23,17 @@ import { AnimatioDemoComponent } from './animatio-demo/animatio-demo.component';
     TabsPanelComponent,
     TabComponent,
     ExtReplaySubjectTesterComponent,
-    AnimatioDemoComponent
+    AnimatioDemoComponent,
+    CssAnimDemoComponent
   ],
-  imports: [BrowserModule, 
+  imports: [
+    BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule, FormsModule, ScrollingModule],
+    AppRoutingModule,
+    FormsModule,
+    ScrollingModule
+  ],
   providers: [],
-  bootstrap: [AppComponent, AnimatioDemoComponent]
+  bootstrap: [AppComponent, AnimatioDemoComponent, CssAnimDemoComponent]
 })
 export class AppModule {}
