@@ -4,7 +4,8 @@
     <div class="flex-fill j-result-items">
       <ng-container *ngIf="!multiSelect">
         <div class="d-flex j-result-item" (click)="onItemSelected(resultItem)"
-          *ngFor="let resultItem of searchResult; let i = index;" [class.active]="i===activeIndex">
+          *ngFor="let resultItem of searchResult; let i = index;" [class.active]="i===activeIndex"
+          [attr.id]="getElemId(i)">
           <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{item: resultItem, index: i}">
           </ng-container>
         </div>

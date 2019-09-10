@@ -159,6 +159,9 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
         : this.singleSelectItemTemplate;
     }
   }
+  getElemId(idx: number): string {
+    return `j-item-${idx}`;
+  }
   //#endregion
 
   //#region HELPER METHODS
@@ -219,13 +222,18 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
           let step = keyCode === Key.ArrowDown ? 1 : -1;
           const topLimit = this.searchResult.length - 1;
           const bottomLimit = 0;
-          this.activeIndex += step;
-          if (this.activeIndex === topLimit + 1) {
-            this.activeIndex = bottomLimit;
+          const index = this.activeIndex + step;
+          if (step < 0) {
+            this.activeIndex = index > 0 ? index : 0;
+          } else {
+            this.activeIndex = index < topLimit ? index : topLimit;
           }
-          if (this.activeIndex === bottomLimit - 1) {
-            this.activeIndex = topLimit;
-          }
+          const el = document.getElementById(
+            `j-item-${(this, this.activeIndex)}`
+          );
+          // @ts-ignore
+          el.scrollIntoViewIfNeeded();
+
           // const elem =this.elem.nativeElement as HTMLInputElement;
           // j-result-item
           this.cdr.markForCheck();
@@ -271,6 +279,7 @@ export class AutoCompleteComponent implements OnInit, OnDestroy {
   }
   private moveFocus() {
     const elem = this.elem.nativeElement as HTMLInputElement;
+    // elem.scrollIntoView()
     // elem.nextElementSibling.
   }
   private isKeyValid(keyCode: number) {

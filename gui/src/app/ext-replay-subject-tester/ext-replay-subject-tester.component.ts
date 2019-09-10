@@ -4,6 +4,8 @@ import {
   ItemComparer,
   VersionComparaer
 } from "../utils/replay-map-subject";
+import { Subscription } from "rxjs";
+import { tap, map } from "rxjs/operators";
 const MAX_ITEMS = 100000;
 const DEPTS = ["HR", "FINANCE", "CORP", "MARKETING", "SALES"];
 interface Emp {
@@ -28,7 +30,11 @@ export class ExtReplaySubjectTesterComponent implements OnInit {
     versionComparer,
     MAX_ITEMS
   );
+  obs$ = this.xreplayMap.asObservable();
+  private token: Subscription;
+
   private emps: Emp[] = [];
+
   constructor() {}
 
   ngOnInit() {
@@ -107,5 +113,18 @@ export class ExtReplaySubjectTesterComponent implements OnInit {
   }
   private randomNum(): number {
     return Math.floor(Math.random() * 1e7);
+  }
+  testsubscribe() {
+    this.token = this.obs$
+      .pipe(
+        tap(x => console.log("TAP")),
+        map(x => "Hello")
+      )
+      .subscribe(emp => {
+        console.log(`SUBSCRIBE DATA : ${emp}`);
+      });
+  }
+  testunsubscribe() {
+    this.token.unsubscribe();
   }
 }

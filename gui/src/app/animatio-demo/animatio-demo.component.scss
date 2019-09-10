@@ -8,6 +8,7 @@
         margin: 30px 30px 0 0;
         padding: 0;
     }
+
     li {
         padding: 15px;
         width: 100%;
@@ -19,5 +20,28 @@
     .close {
         cursor: pointer;
         margin-left: 50px;
+    }
+
+    // light
+    // .bar {
+    //     background: var(--shade-4);
+    //     border-bottom: 2px solid #5250501a;
+    //     border-top: 1px solid #cfd7dc;
+    //     border-left: 1px solid #cfd7dc;
+    //     border-right: 2px solid #5250501a;
+    //     margin: 0 20px;
+    //     padding: 4px 10px;
+    // }
+
+    // dark
+    .bar {
+        background: var(--shade-2);
+        border: 1px solid #383535;
+        border-bottom: 2px solid #101010;
+        border-top: 1px solid #4a5054;
+        border-left: 1px solid #4a5054;
+        border-right: 2px solid #101010;
+        margin: 0 20px;
+        padding: 4px 10px;
     }
 }

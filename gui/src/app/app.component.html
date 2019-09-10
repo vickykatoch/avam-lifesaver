@@ -17,7 +17,7 @@
 
   </div>
 
-  <app-tabs-panel class="d-flex flex-fill" [headerLocation]='location'>
+  <app-tabs-panel [headerLocation]='location'>
     <app-tab header="One" class="d-flex flex-fill">
       <app-auto-complete-demo></app-auto-complete-demo>
     </app-tab>
@@ -27,10 +27,10 @@
     <app-tab header="Replay Subject Tester" class="d-flex flex-fill">
       <app-ext-replay-subject-tester></app-ext-replay-subject-tester>
     </app-tab>
-    <app-tab header="Animation Demo" class="d-flex flex-fill">
-      <!-- <app-animation-demo></app-animation-demo> -->
+    <app-tab header="Animation Demo" class="d-flex flex-fill" selected="true">
+      <app-animation-demo></app-animation-demo>
     </app-tab>
-    <app-tab header="Four" selected="true" class="d-flex flex-fill" selected="true">
+    <app-tab header="Four" selected="true" class="d-flex flex-fill">
       <app-css-anim-demo></app-css-anim-demo>
     </app-tab>
   </app-tabs-panel>

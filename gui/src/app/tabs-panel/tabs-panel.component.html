@@ -1,9 +1,8 @@
-
 <ng-template #defaultHeaderTemplate>
   <div class="header" [class.vertical]="isVertical">
     <div class="tab-header" [class.selected]="tab.selected" (click)="selectTab(tab)" *ngFor="let tab of tabs">
       <span class="title">{{tab.header}}</span>
-      <span class="close" *ngIf="canClose" (click)="closeTab(tab)"><i class="fa fa-times"></i> </span>
+      <span class="close" (click)="closeTab(tab)"><i class="fa fa-times"></i> </span>
     </div>
   </div>
 </ng-template>
